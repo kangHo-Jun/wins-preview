@@ -1,0 +1,77 @@
+{
+  "verifiedAt": "2026-10-20",
+  "sourceKind": "actual ChatGPT Sites managed Git repository; not a public-page HTML capture",
+  "originalSiteUrl": "https://daesanwins.sales965625.chatgpt.site/",
+  "originalProjectId": "appgprj_6abdc0a9a73081919398830def8d532c",
+  "publishedVersion": 8,
+  "publishedVersionId": "appgprj_6abdc0a9a73081919398830def8d532c~appgver_c65b5d21312481919e6165c5048923cc",
+  "sourceCommit": "49149d1bf93d5af59616132572d90af9612f6786",
+  "deploymentId": "appgdep_6ad57ea4aa04819180d793d331ff67de",
+  "publishedStatus": "succeeded",
+  "unpublishedAppDifferences": [],
+  "localApplicationFilesMatch": true,
+  "originalHostingManifest": {
+    "static": {
+      "directory": "dist"
+    },
+    "project_id": "appgprj_6abdc0a9a73081919398830def8d532c"
+  },
+  "transferManifestChange": "Removed original project_id from active .openai/hosting.json to prevent deployment into the original Site; B must register their own Site.",
+  "inventory": [
+    {
+      "path": "dist/app.css",
+      "bytes": 19159,
+      "sha256": "e34e0a4ab56d3ad8713672185319384f8453144da3819a105a12f716def59329"
+    },
+    {
+      "path": "dist/app.js",
+      "bytes": 47431,
+      "sha256": "7a3b10ea18a3544d2304aaa59f242676fb81757ef68e552429081fb221b94be3"
+    },
+    {
+      "path": "dist/daesan-symbol.png",
+      "bytes": 764277,
+      "sha256": "b6d952b4dcdb4742952c911d9d4d23ef934c03df20289eeb1b59c33120368c87"
+    },
+    {
+      "path": "dist/double-low-e-colors.png",
+      "bytes": 79123,
+      "sha256": "d2ed2213f4681b5d53244b9f1d769cc7e948d9211b2bdbdf23cf0975d4d10daa"
+    },
+    {
+      "path": "dist/double-low-e-performance.png",
+      "bytes": 26647,
+      "sha256": "b3e27add451bdcc80078b4f0ed370757075b9129e70b33f1483af7a33a09d3bd"
+    },
+    {
+      "path": "dist/handle-lines.png",
+      "bytes": 157533,
+      "sha256": "d6f3e76b373e679b5185ba9cb2f11a89090611074bcea6830ed2095c7a930ba9"
+    },
+    {
+      "path": "dist/index.html",
+      "bytes": 2025,
+      "sha256": "728c642643778e6f15575c5e46ccfba393202ba772db7334e75931ffa5a1135e"
+    },
+    {
+      "path": "dist/jszip-LICENSE.txt",
+      "bytes": 33753,
+      "sha256": "566c953c6090b1218ca6217dd7359d45dde46581968586dc607d59a78af6a9c4"
+    },
+    {
+      "path": "dist/jszip.min.js",
+      "bytes": 97630,
+      "sha256": "acc7e41455a80765b5fd9c7ee1b8078a6d160bbbca455aeae854de65c947d59e"
+    },
+    {
+      "path": "dist/report.js",
+      "bytes": 20738,
+      "sha256": "67edf7b929a09de78bf29db3b241406eb687d56d8dc92f60252db3b157b940b9"
+    },
+    {
+      "path": "dist/wrapping-colors.png",
+      "bytes": 125249,
+      "sha256": "b626184da0dad577f2cb63e0c0b2237c9cbfbca23bc0cebee308c9cfb7c93def"
+    }
+  ]
+}

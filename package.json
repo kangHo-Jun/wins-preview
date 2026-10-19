@@ -1,0 +1,16 @@
+{
+  "name": "daesan-window-order-assistant",
+  "version": "1.0.0",
+  "private": true,
+  "description": "대산 창호 발주도우미 — standalone static source snapshot",
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "start": "node scripts/serve.mjs",
+    "dev": "node scripts/serve.mjs",
+    "check": "node scripts/check.mjs",
+    "build": "node scripts/check.mjs"
+  },
+  "dependencies": {}
+}

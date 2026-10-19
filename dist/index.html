@@ -1,0 +1,27 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="현장에 필요한 LX창호를 부위별로 정리하고 견적 상담 정보를 한 번에 전달합니다.">
+  <title>대산 창호 발주도우미</title>
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%231b6946'/%3E%3Cpath d='M7 7h18v18H7zM18 7v18' fill='none' stroke='white' stroke-width='2'/%3E%3C/svg%3E">
+  <link rel="stylesheet" href="./app.css">
+  <script defer src="./jszip.min.js"></script><script defer src="./report.js"></script><script defer src="./app.js"></script>
+</head>
+<body>
+  <div class="app-masthead" id="app-masthead">
+    <header class="site-header"><div class="brand-heading"><div class="app-title"><img class="company-symbol" src="./daesan-symbol.png" alt="대산 로고"><strong>대산 창호 발주도우미</strong></div><p class="brand-subtitle">대산 <span aria-hidden="true">-</span> LX본사 완성창 대리점</p></div></header>
+    <nav id="stepnav" class="stepnav" aria-label="상담 단계"></nav>
+  </div>
+  <main class="app-shell">
+    <section id="wizard" class="panel wizard" aria-live="polite"></section>
+    <aside class="side-column" aria-label="현장 창호 현황">
+      <section class="panel overview"><div class="section-head"><h2>현장 창호</h2><span id="window-count" class="count"></span></div><div id="window-nav"></div></section>
+      <section class="panel preview-panel"><div class="section-head"><h2>선택한 창 미리보기</h2></div><div id="diagram" class="diagram"></div><p id="preview-caption" class="caption"></p></section>
+    </aside>
+  </main>
+  <footer>상담 정보 정리용 · 제작 치수와 모델별 적용 가능 사양은 대산 확인 후 확정됩니다.</footer>
+  <div id="toast" role="status" aria-live="polite"></div>
+</body>
+</html>
