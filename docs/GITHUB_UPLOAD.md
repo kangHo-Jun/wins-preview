@@ -1,6 +1,6 @@
 # GitHub 인증과 수동 업로드
 
-2026-10-20에 `https://github.com/idnnatee-cyber/wins.git`을 확인했을 때 기존 커밋/브랜치가 없는 빈 저장소였습니다. 로컬 `main` 커밋까지 준비했으나 push는 GitHub 인증 부재로 실패했습니다. 원격에 파일/커밋은 업로드되지 않았습니다. 원본 Sites 인증은 GitHub 쓰기 권한으로 사용할 수 없습니다.
+2026-10-20에 `https://github.com/idnnatee-cyber/wins.git`을 확인했을 때 기존 커밋/브랜치가 없는 빈 저장소였습니다. 로컬 `main` 커밋까지 준비했으나 push는 GitHub 인증 부재로 실패했습니다. 이후 2026-10-20에 사용자가 브라우저 인증을 완료하여 main에 정상 업로드했습니다. 아래 명령은 재인증이나 다른 PC에서 업로드할 때 참고용입니다. 원본 Sites 인증은 GitHub 쓰기 권한으로 사용할 수 없습니다.
 
 ## 이 작업을 수행한 PC에서 이어서 push
 

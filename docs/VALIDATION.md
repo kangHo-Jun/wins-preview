@@ -36,6 +36,6 @@
 
 ## GitHub 업로드 상태
 
-- 로컬 main 커밋 생성 완료. GitHub push는 인증 부재(Cannot prompt / unable to get password)로 실패했습니다. 연결된 GitHub CLI 또는 쓰기 토큰 환경변수도 없어 전체 ZIP과 업로드 절차로 인계합니다.
+- 로컬 main 커밋 생성 후 최초 push는 인증 부재로 실패했으나, 2026-10-20 사용자가 GitHub 인증을 완료하여 전체 프로젝트를 main에 정상 push했습니다. 원격 main의 커밋 일치를 확인합니다.
 - 초기 원격은 비어 있었고 강제 push를 사용하지 않았습니다. 인증 절차는 GITHUB_UPLOAD.md에 있습니다.
 
