@@ -32,6 +32,10 @@
       <button type="button" class="list-manage" data-step="1">목록 이름 편집</button>
       <div class="list-note"><span class="note-symbol">i</span><p>입력한 내용은 이 화면에만 유지됩니다. 상담이 끝나면 사양서를 저장하세요.</p></div>
     </aside>
+    <aside class="editor-panel" aria-label="창호 사양 편집">
+      <nav id="stepnav" class="stepnav" aria-label="사양 항목"></nav>
+      <section id="wizard" class="wizard"></section>
+    </aside>
     <section class="stage-panel" aria-label="선택한 창호 도식">
       <div class="stage-heading"><div><span class="project-label">선택한 창호</span><h1 id="stage-title">새 창호</h1></div><span id="stage-status" class="status pending"></span></div>
       <div class="stage-toolbar"><span>정면 도식 <span class="stage-unit">· mm</span></span><div><button type="button" data-planner="duplicate">복제</button><button type="button" data-planner="delete">삭제</button></div></div>
@@ -40,10 +44,6 @@
       <div id="stage-spec" class="stage-spec"></div>
       <div class="stage-bottom"><span>LX Z:IN · 대산 창호 상담</span><button type="button" data-step="7">전체 사양 확인 →</button></div>
     </section>
-    <aside class="editor-panel" aria-label="창호 사양 편집">
-      <nav id="stepnav" class="stepnav" aria-label="사양 항목"></nav>
-      <section id="wizard" class="wizard"></section>
-    </aside>
   </main>
   <footer>상담 정보 정리용 · 제작 치수와 모델별 적용 가능 사양은 대산 확인 후 확정됩니다.</footer>
   <div id="toast" role="status" aria-live="polite"></div>

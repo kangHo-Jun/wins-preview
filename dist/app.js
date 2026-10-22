@@ -236,7 +236,7 @@ function renderSide(){
   $('window-nav').innerHTML=windows.map((c,i)=>{const count=pending(c).length;return `<button type="button" class="window-nav ${c.id===focusId?'active':''}" data-focus="${esc(c.id)}" aria-pressed="${c.id===focusId}"><span class="window-thumb" aria-hidden="true">${shapeSvg(c)}</span><span class="window-info"><strong>${esc(c.name||'창호 '+(i+1))}</strong><small>${esc(c.model||'제품 선택 전')} · ${c.quantity||1}개</small><span class="list-status ${count?'':'complete'}">${count?'사양 입력 중':'입력 완료'}</span></span></button>`;}).join('');
   const c=win(focusId)||windows[0];
   $('diagram').innerHTML=shapeSvg(c);$('diagram').style.transform=`scale(${plannerZoom})`;
-  $('preview-caption').textContent=c.shape?`${c.shape} · 개폐 방향은 발주 전 확인`:'오른쪽에서 제품과 형태를 선택해 주세요. 예시 비율로 표시됩니다.';
+  $('preview-caption').textContent=c.shape?`${c.shape} · 개폐 방향은 발주 전 확인`:'상세 입력에서 제품과 형태를 선택해 주세요. 예시 비율로 표시됩니다.';
   $('stage-title').textContent=c.name||'창호 '+(windows.indexOf(c)+1);
   const missing=pending(c);$('stage-status').textContent=missing.length?`${missing.length}개 확인 필요`:'입력 완료';$('stage-status').className='status '+(missing.length?'pending':'');
   const details=[['제품', [c.category,c.model].filter(Boolean).join(' · ')||'미선택'],['규격',`${c.width||'—'} × ${c.height||'—'} mm`],['색상',c.inside==='시트랩핑'?c.wrap||'랩핑 선택 중':c.inside],['수량',`${c.quantity||'—'}개`]];

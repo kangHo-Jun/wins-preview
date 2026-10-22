@@ -3,6 +3,7 @@
 최근 갱신: 2026-10-22
 
 ## 최근 진행
+- 2026-10-22 사용자 승인: 목록 → 상세 입력 → 도식으로 DOM/화면 순서를 변경. 데스크톱·태블릿 도식은 sticky로 유지하고 화면 높이에 맞춰 축소, 작은 화면 높이에서는 도식 영역 내부 스크롤을 허용한다. 모바일은 목록 → 입력 → 도식 순으로 쌓는다. 비교용 저장소에만 배포한다.
 - 2026-10-22 비교용 배포 요청: 로컬 신규 브랜치 preview/daesan-window-helper에 변경을 준비했다. main과 기존 wins.daesan.ai는 변경하지 않는다. scripts/check.mjs 및 git diff --check 통과.
 - GitHub CLI와 커넥터 계정은 kangHo-Jun. 원격 idnnatee-cyber/wins의 API 권한 확인 결과 pull=true, push=false, admin=false이며 has_pages=false. 따라서 원격 푸시/Pages 생성은 수행하지 못했다.
 - 2026-10-22 헤더 D 아이콘을 사용자가 제공한 대산 캐릭터로 교체. 원본 PNG를 dist/daesan-character.png로 복사하고 CSS 표시 영역으로 안전모·얼굴을 중심 배치했다. 원본 파일은 수정하지 않았다. 헤더 이름/홈 접근성 이름/브라우저 제목을 대산 창호도우미로 통일했다.
@@ -32,3 +33,4 @@
 - Pages deployment succeeded: https://kangho-jun.github.io/wins-preview/ . Verified live browser title and configuration UI. The github-pages environment explicitly allows this branch.
 - Original repository and DNS unchanged. Original main remains 67dc892004d7ae7fe0e12502bf502ad93f7dba1a. Original-repository permission blocker is bypassed through this user-approved separate repository.
 - Future updates: commit on preview/daesan-window-helper and push to preview remote. Never push these changes to origin/main without a new user instruction.
+- Layout verification: syntax/assets check and diff whitespace check passed. At 1280px panels appear at x=0/220/750 in list/editor/drawing order; drawing remains visible while scrolling the glass form. At 390px document width is 390px and panels stack list/editor/drawing.
