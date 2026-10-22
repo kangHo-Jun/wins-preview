@@ -8,7 +8,7 @@ let nextId = 1;
 function makeWindow(name='') { return {id:String(nextId++),name,category:'',layers:'',model:'',shape:'',width:'',height:'',w1:'',quantity:'1',outside:'화이트',inside:'화이트',wrap:'',screen:'',drain:'',glassInnerOut:'',glassInnerIn:'',glassTypeOut:'',glassThicknessOut:'',glassGasOut:'',glassTypeIn:'',glassThicknessIn:'',glassGasIn:'',glassOut:'',glassIn:'',handle:'프리마/웜실버',lock:'자동(잠금)',handleSize:'',handleHeight:'',handleHeightManual:false,notes:''}; }
 const site = {workType:'개보수',buildingType:'아파트',occupied:'비거주',removal:'철거 필요',name:'',address:'',measureAt:'',measureHour:'',installDate:'',memo:''};
 const windows = [makeWindow()];
-let step=0, focusId=windows[0].id, tab='spec';
+let step=2, focusId=windows[0].id, tab='spec';
 const openIds=new Set([windows[0].id]);
 function win(id){return windows.find(item=>item.id===id);}
 function needsLayers(c){return ['발코니창','일반창'].includes(c.category);}
@@ -90,8 +90,9 @@ function select(c,key,label,values){
   return `<label>${esc(label)}<select data-field="${esc(key)}" data-id="${esc(c.id)}"><option value="">선택해 주세요</option>${values.map(value=>`<option value="${esc(value)}" ${c[key]===value?'selected':''}>${esc(value)}</option>`).join('')}</select></label>`;
 }
 function card(c,index,content){
+  if(c.id!==focusId)return "";
   const missing=pending(c);
-  return `<details class="window-card" data-card="${esc(c.id)}" ${openIds.has(c.id)?'open':''}><summary><span>${index+1}. ${esc(c.name||'창위치명 미입력')}</span><span class="status ${missing.length?'pending':''}">${missing.length?`${missing.length}개 확인 필요`:'입력 완료'}</span></summary><div class="window-card-body">${content}</div></details>`;
+  return `<details class="window-card" data-card="${esc(c.id)}" open><summary><span>${index+1}. ${esc(c.name||'창위치명 미입력')}</span><span class="status ${missing.length?'pending':''}">${missing.length?`${missing.length}개 확인 필요`:'입력 완료'}</span></summary><div class="window-card-body">${content}</div></details>`;
 }
 function pending(c){
   const missing=[];
@@ -163,8 +164,8 @@ function syncHardware(c){
 }
 function hardwarePage(){
   windows.forEach(syncHardware);
-  const image=windows.some(c=>c.category!=='FIX창')?'<div class="prima-reference" style="width:100%;max-width:864px;aspect-ratio:864/300;overflow:hidden;margin:0 auto 24px"><img src="./handle-lines.png" alt="프리마 라인 핸들 참고 이미지" style="display:block;width:100%;height:auto"></div>':'';
-  return image+windows.map((c,i)=>c.category==='FIX창'?`<div class="review-item"><h3>${i+1}. ${esc(c.name||'FIX창')}</h3><p>픽스창 핸들 없음</p></div>`:card(c,i,`${c.category!=='터닝도어'?`<div class="small-heading">핸들 라인</div>${options('handle',c.handle,['프리마/웜실버','별도상담 요청'],c.id)}`:''}
+  const image=win(focusId)?.category!=='FIX창'?'<div class="prima-reference" style="width:100%;max-width:864px;aspect-ratio:864/300;overflow:hidden;margin:0 auto 24px"><img src="./handle-lines.png" alt="프리마 라인 핸들 참고 이미지" style="display:block;width:100%;height:auto"></div>':'';
+  return image+windows.map((c,i)=>c.id!==focusId?'':c.category==='FIX창'?`<div class="review-item"><h3>${i+1}. ${esc(c.name||'FIX창')}</h3><p>픽스창 핸들 없음</p></div>`:card(c,i,`${c.category!=='터닝도어'?`<div class="small-heading">핸들 라인</div>${options('handle',c.handle,['프리마/웜실버','별도상담 요청'],c.id)}`:''}
     <fieldset class="handle-options" ${c.handle==='별도상담 요청'&&c.category!=='터닝도어'?'disabled':''}><div class="small-heading">핸들 종류</div>${options('lock',c.lock,handleTypes(c),c.id)}
     ${c.category!=='터닝도어'?`<div class="small-heading">핸들 크기</div>${options('handleSize',c.handleSize,[['대','최소높이 580'],['중','최소높이 300']],c.id)}<div class="field-grid">${field(c,'handleHeight','핸들 높이 (mm) (기본위치 창호 중앙)','number','창호 세로 규격을 먼저 입력해 주세요')}</div>`:''}</fieldset>`)).join('');
 }
@@ -228,17 +229,28 @@ function reviewPage(){
   ${tab==='drawings'?drawingGallery():`<div id="spec-report">${specReport()}</div><div class="button-row report-downloads"><button type="button" class="primary" data-report="xlsx">정리본 엑셀 저장</button><button type="button" class="secondary" data-report="jpg">정리본 그림 저장 (JPG)</button></div><div class="button-row"><button type="button" class="yellow" data-action="share">카카오톡 전송</button><button type="button" class="primary" data-action="copy">정리본 복사</button></div>
   <p class="subtle" style="margin-top:12px">공유 목록에서 카카오톡을 선택하거나 정리본 그림을 복사해 대화창에 붙여넣으세요. 이미지 공유·복사를 지원하지 않는 브라우저에서는 그림파일을 저장합니다.</p>`}`;
 }
+let plannerZoom=1;
 function renderSide(){
-  $('window-count').textContent=`${windows.length}종`;
-  $('window-nav').innerHTML=windows.map((c,i)=>{const count=pending(c).length;return `<button type="button" class="window-nav ${c.id===focusId?'active':''}" data-focus="${esc(c.id)}">${i+1}. ${esc(c.name||'창위치명 미입력')}<small>${esc(shortSpec(c))} · ${count?`${count}개 확인 필요`:'입력 완료'}</small></button>`;}).join('');
+  $('window-count').textContent=`${windows.length}`;
+  $('project-title').textContent=site.name||'새 현장';
+  $('window-nav').innerHTML=windows.map((c,i)=>{const count=pending(c).length;return `<button type="button" class="window-nav ${c.id===focusId?'active':''}" data-focus="${esc(c.id)}" aria-pressed="${c.id===focusId}"><span class="window-thumb" aria-hidden="true">${shapeSvg(c)}</span><span class="window-info"><strong>${esc(c.name||'창호 '+(i+1))}</strong><small>${esc(c.model||'제품 선택 전')} · ${c.quantity||1}개</small><span class="list-status ${count?'':'complete'}">${count?'사양 입력 중':'입력 완료'}</span></span></button>`;}).join('');
   const c=win(focusId)||windows[0];
-  $('diagram').innerHTML=shapeSvg(c);
-  $('preview-caption').textContent=`${c.name||'선택한 창'} · ${c.shape||'형태 선택 전'} · 방향 기준은 발주 전 확인`;
+  $('diagram').innerHTML=shapeSvg(c);$('diagram').style.transform=`scale(${plannerZoom})`;
+  $('preview-caption').textContent=c.shape?`${c.shape} · 개폐 방향은 발주 전 확인`:'오른쪽에서 제품과 형태를 선택해 주세요. 예시 비율로 표시됩니다.';
+  $('stage-title').textContent=c.name||'창호 '+(windows.indexOf(c)+1);
+  const missing=pending(c);$('stage-status').textContent=missing.length?`${missing.length}개 확인 필요`:'입력 완료';$('stage-status').className='status '+(missing.length?'pending':'');
+  const details=[['제품', [c.category,c.model].filter(Boolean).join(' · ')||'미선택'],['규격',`${c.width||'—'} × ${c.height||'—'} mm`],['색상',c.inside==='시트랩핑'?c.wrap||'랩핑 선택 중':c.inside],['수량',`${c.quantity||'—'}개`]];
+  $('stage-spec').innerHTML=details.map(([k,v])=>`<div><span>${k}</span><strong>${esc(v)}</strong></div>`).join('');
+  document.querySelector('[data-planner="delete"]').disabled=windows.length===1;
 }
 function render(){
-  $('stepnav').innerHTML=steps.map((label,i)=>`<button type="button" data-step="${i}" ${i===step?'aria-current="step"':''}><b>${i+1}.</b><span>${label}</span></button>`).join('');
+  document.body.dataset.mode=step===7?'review':step<2?'site':'configure';
+  document.querySelectorAll('.workspace-modes button').forEach(b=>b.setAttribute('aria-current',Number(b.dataset.step)===(step<2?0:step===7?7:2)?'page':'false'));
+  $('stepnav').innerHTML=steps.map((label,i)=>i<2||i===7?'':`<button type="button" data-step="${i}" ${i===step?'aria-current="step"':''}><span>${label.replace('제품 선택','제품').replace('색상·구성','색상')}</span></button>`).join('');
   const pages=[sitePage,inventoryPage,productPage,dimensionPage,colorPage,glassPage,hardwarePage,reviewPage];
-  $('wizard').innerHTML=`<div class="eyebrow">${step+1} / ${steps.length} · ${steps[step]}</div><div class="progress" role="progressbar" aria-valuenow="${step+1}" aria-valuemin="1" aria-valuemax="${steps.length}"><div style="width:${(step+1)/steps.length*100}%"></div></div><h1>${titles[step]}</h1>${intros[step]?`<p class="intro">${intros[step]}</p>`:''}${pages[step]()}<div class="error" id="error" role="alert"></div><div class="actions"><button type="button" class="secondary" data-action="back" ${step===0?'disabled':''}>이전</button>${step<steps.length-1?'<button type="button" class="primary" data-action="next">다음 단계</button>':''}</div>`;
+  const headings=['현장 정보를 입력하세요','창호 목록 편집','어떤 창을 설치할까요?','형태와 치수를 정해주세요','색상과 구성을 골라주세요','유리 사양을 선택하세요','핸들을 선택하세요','상담 사양을 확인하세요'];
+  const c=win(focusId);const nameField=step===2?`<div class="editor-name">${field(c,'name','창 위치명','text','예: 거실 발코니')}</div>`:'';
+  $('wizard').innerHTML=`<div class="eyebrow">${step<2?'PROJECT':step===7?'REVIEW':'CONFIGURE / '+String(step-1).padStart(2,'0')}</div><h2>${headings[step]}</h2>${nameField}${pages[step]()}<div class="error" id="error" role="alert"></div><div class="actions"><button type="button" class="secondary" data-action="back" ${step===0?'disabled':''}>이전</button>${step<steps.length-1?'<button type="button" class="primary" data-action="next">'+(step===6?'전체 확인':'다음 항목')+' →</button>':''}</div>`;
   renderSide();installGuides();if(step===7)reportImageBlob().catch(()=>{});
 }
 function numericError(){
@@ -270,6 +282,16 @@ async function shareSummary(){
 document.addEventListener('click',event=>{
   if(event.target.matches?.('.native-date-overlay')){try{event.target.showPicker?.();}catch(_){}return;}
   const button=event.target.closest('button');if(!button||button.matches(':disabled'))return;
+  if(button.dataset.zoom!==undefined){plannerZoom=button.dataset.zoom==='0'?1:Math.max(.7,Math.min(1.4,plannerZoom+Number(button.dataset.zoom)*.1));$('zoom-label').textContent=Math.round(plannerZoom*100)+'%';$('diagram').style.transform=`scale(${plannerZoom})`;return;}
+  if(button.dataset.planner==='duplicate'){const c={...win(focusId),id:String(nextId++),name:(win(focusId).name||'창호')+' 복사'};windows.push(c);focusId=c.id;openIds.add(c.id);render();toast('같은 사양의 창호를 복제했습니다.');return;}
+  if(button.dataset.planner==='delete'){if(windows.length<=1)return;const c=win(focusId);if(!window.confirm(`${c.name||'선택한 창호'}를 삭제할까요?`))return;windows.splice(windows.indexOf(c),1);openIds.delete(c.id);focusId=windows[0].id;render();return;}
+  if(button.dataset.planner==='demo'){
+    if((site.name||site.address||windows.some(c=>c.name||c.category||c.width))&&!window.confirm('현재 입력을 예시 상담으로 바꿀까요? 저장하지 않은 내용은 사라집니다.'))return;
+    Object.assign(site,{workType:'개보수',buildingType:'아파트',occupied:'비거주',removal:'철거 필요',name:'샘플 · 아파트 창호 상담',address:'예시 현장 (실제 고객 정보 아님)',measureAt:'',measureHour:'',installDate:'',memo:''});
+    windows.splice(0);openIds.clear();
+    [['거실 발코니','발코니창','F-250','이중창','3200','2200'],['안방','일반창','F-130I','단창','1800','1500'],['작은방','일반창','F-130I','단창','1500','1500']].forEach(([name,category,model,layers,width,height])=>{const c=makeWindow(name);Object.assign(c,{category,model,layers,width,height,shape:'2W 정_좌',screen:category==='발코니창'?'포함':'미포함',drain:category==='발코니창'?'적용 요청':'미적용 요청',handleSize:'대'});applyGlassRecommendation(c);syncHardware(c);windows.push(c);openIds.add(c.id);});
+    focusId=windows[0].id;step=3;render();toast('가상의 예시 상담입니다. 자유롭게 사양을 바꿔보세요.');return;
+  }
   if(button.dataset.missing){jumpToMissing(button.dataset.id,button.dataset.missing);return;}
   if(button.dataset.siteMissing){step=0;render();const key={'현장명':'name','현장주소':'address','기존 창호 철거':'removal'}[button.dataset.siteMissing];focusMissingControl(document.querySelector('[data-site-field="'+key+'"], [data-choice="'+key+'"]'));return;}
   if(button.dataset.report){if(approveIncompleteExport())saveSpecReport(button.dataset.report,button);return;}
@@ -291,11 +313,11 @@ document.addEventListener('click',event=>{
       if(['category','layers','model'].includes(key))syncHardware(c);
 
     }else {site[key]=value;if(key==='workType')site.removal=value==='신축'?'철거 불필요':'철거 필요';}
-    render();if(id){if(step===2&&!guideKey(win(id))){const next=windows.slice(windows.findIndex(c=>c.id===id)+1).find(c=>guideKey(c));if(next){focusId=next.id;openIds.add(next.id);render();revealNextGuide(next.id);}}else revealNextGuide(id,key==='shape');}return;
+    render();if(id)revealNextGuide(id,key==='shape');return;
   }
   if(button.dataset.add!==undefined){
     
-    const c=makeWindow();windows.push(c);focusId=c.id;openIds.add(c.id);render();return;
+    const c=makeWindow();windows.push(c);focusId=c.id;openIds.add(c.id);if(step!==1)step=2;render();return;
   }
   if(button.dataset.remove){
     if(windows.length<=1)return;
@@ -304,9 +326,7 @@ document.addEventListener('click',event=>{
     windows.splice(windows.indexOf(c),1);openIds.delete(c.id);if(focusId===c.id)focusId=windows[0].id;render();return;
   }
   if(button.dataset.focus){
-    focusId=button.dataset.focus;openIds.add(focusId);
-    const card=[...document.querySelectorAll('[data-card]')].find(el=>el.dataset.card===focusId);
-    if(card){card.open=true;card.scrollIntoView({block:'start',behavior:'smooth'});}renderSide();return;
+    focusId=button.dataset.focus;openIds.add(focusId);if(step<2||step===7)step=2;render();return;
   }
   if(button.dataset.recommend){const c=win(button.dataset.recommend);if(c){focusId=c.id;openIds.add(c.id);applyGlassRecommendation(c,button.dataset.usage);render();}return;}
   if(button.dataset.jump){focusId=button.dataset.jump;openIds.add(focusId);go(2);return;}
@@ -318,7 +338,7 @@ document.addEventListener('click',event=>{
 });
 document.addEventListener('input',event=>{
   const target=event.target;
-  if(target.dataset.siteField){site[target.dataset.siteField]=target.value;refreshDates();if($('spec-report'))$('spec-report').innerHTML=specReport();return;}
+  if(target.dataset.siteField){site[target.dataset.siteField]=target.value;refreshDates();$('project-title').textContent=site.name||'새 현장';if($('spec-report'))$('spec-report').innerHTML=specReport();return;}
   if(!target.dataset.field)return;
   const c=win(target.dataset.id);if(!c)return;
   c[target.dataset.field]=target.value;focusId=c.id;
@@ -333,7 +353,7 @@ document.addEventListener('input',event=>{
 });
 document.addEventListener('change',event=>{
   const target=event.target;
-  if(target.dataset.siteField){site[target.dataset.siteField]=target.value;refreshDates();if($('spec-report'))$('spec-report').innerHTML=specReport();return;}
+  if(target.dataset.siteField){site[target.dataset.siteField]=target.value;refreshDates();$('project-title').textContent=site.name||'새 현장';if($('spec-report'))$('spec-report').innerHTML=specReport();return;}
   if(target.dataset.field&&target.tagName==='INPUT'){updateGuides();revealNextGuide(target.dataset.id);}
   if(target.dataset.field&&target.tagName==='SELECT'){
     const c=win(target.dataset.id);if(!c)return;c[target.dataset.field]=target.value;

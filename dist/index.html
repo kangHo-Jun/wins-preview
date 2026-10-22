@@ -4,21 +4,45 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="description" content="현장에 필요한 LX창호를 부위별로 정리하고 견적 상담 정보를 한 번에 전달합니다.">
-  <title>대산 창호 발주도우미</title>
+  <title>대산 창호도우미</title>
   <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%231b6946'/%3E%3Cpath d='M7 7h18v18H7zM18 7v18' fill='none' stroke='white' stroke-width='2'/%3E%3C/svg%3E">
   <link rel="stylesheet" href="./app.css">
+  <link rel="stylesheet" href="./planner.css">
   <script defer src="./jszip.min.js"></script><script defer src="./report.js"></script><script defer src="./app.js"></script>
 </head>
-<body>
-  <div class="app-masthead" id="app-masthead">
-    <header class="site-header"><div class="brand-heading"><div class="app-title"><img class="company-symbol" src="./daesan-symbol.png" alt="대산 로고"><strong>대산 창호 발주도우미</strong></div><p class="brand-subtitle">대산 <span aria-hidden="true">-</span> LX본사 완성창 대리점</p></div></header>
-    <nav id="stepnav" class="stepnav" aria-label="상담 단계"></nav>
+<body data-theme="daesan" data-mode="configure">
+  <header class="planner-header" id="app-masthead">
+    <a class="planner-brand" href="./" aria-label="대산 창호도우미 홈"><span class="brand-character" aria-hidden="true"><img src="./daesan-character.png" alt="" width="1536" height="1024"></span><span class="brand-name">대산 창호도우미</span></a>
+    <button type="button" class="header-demo" data-planner="demo">예시 살펴보기 ↗</button>
+  </header>
+  <div class="project-bar">
+    <div><span class="project-label">상담 프로젝트</span><strong id="project-title">새 현장</strong></div>
+    <nav class="workspace-modes" aria-label="작업 화면">
+      <button type="button" data-step="0">현장 정보</button>
+      <button type="button" data-step="2">창호 구성</button>
+      <button type="button" data-step="7">전체 확인 · 출력 <span aria-hidden="true">↗</span></button>
+    </nav>
   </div>
   <main class="app-shell">
-    <section id="wizard" class="panel wizard" aria-live="polite"></section>
-    <aside class="side-column" aria-label="현장 창호 현황">
-      <section class="panel overview"><div class="section-head"><h2>현장 창호</h2><span id="window-count" class="count"></span></div><div id="window-nav"></div></section>
-      <section class="panel preview-panel"><div class="section-head"><h2>선택한 창 미리보기</h2></div><div id="diagram" class="diagram"></div><p id="preview-caption" class="caption"></p></section>
+    <aside class="workspace-list" aria-label="현장 창호 목록">
+      <div class="list-heading"><span>나의 창호</span><span id="window-count" class="count"></span></div>
+      <p class="list-hint">창을 선택하고 사양을 완성하세요.</p>
+      <div id="window-nav"></div>
+      <button type="button" class="add-window" data-add="custom">＋ 창호 추가</button>
+      <button type="button" class="list-manage" data-step="1">목록 이름 편집</button>
+      <div class="list-note"><span class="note-symbol">i</span><p>입력한 내용은 이 화면에만 유지됩니다. 상담이 끝나면 사양서를 저장하세요.</p></div>
+    </aside>
+    <section class="stage-panel" aria-label="선택한 창호 도식">
+      <div class="stage-heading"><div><span class="project-label">선택한 창호</span><h1 id="stage-title">새 창호</h1></div><span id="stage-status" class="status pending"></span></div>
+      <div class="stage-toolbar"><span>정면 도식 <span class="stage-unit">· mm</span></span><div><button type="button" data-planner="duplicate">복제</button><button type="button" data-planner="delete">삭제</button></div></div>
+      <div class="drawing-stage"><div id="diagram" class="diagram"></div><p id="preview-caption" class="caption"></p></div>
+      <div class="stage-controls"><span>비율 미리보기 · 제작 도면이 아닙니다</span><div role="group" aria-label="도식 확대 축소"><button type="button" data-zoom="-1" aria-label="도식 축소">−</button><button type="button" data-zoom="0" id="zoom-label" aria-label="도식 확대율 초기화">100%</button><button type="button" data-zoom="1" aria-label="도식 확대">＋</button></div></div>
+      <div id="stage-spec" class="stage-spec"></div>
+      <div class="stage-bottom"><span>LX Z:IN · 대산 창호 상담</span><button type="button" data-step="7">전체 사양 확인 →</button></div>
+    </section>
+    <aside class="editor-panel" aria-label="창호 사양 편집">
+      <nav id="stepnav" class="stepnav" aria-label="사양 항목"></nav>
+      <section id="wizard" class="wizard"></section>
     </aside>
   </main>
   <footer>상담 정보 정리용 · 제작 치수와 모델별 적용 가능 사양은 대산 확인 후 확정됩니다.</footer>
