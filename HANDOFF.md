@@ -25,3 +25,10 @@
 - 대산 카탈로그 스타일을 기준으로 후속 개선을 진행한다.
 - 필요 시 상담 저장 기능 및 가격 산출을 별도로 구현한다.
 - 사용자가 요청하면 로컬 실행 및 `wins.daesan.ai` HTTPS 연결 상태를 재검증한다.
+
+## Separate preview deployment — 2026-10-22
+- User approved deployment to their own account. Created public repository https://github.com/kangHo-Jun/wins-preview and added remote `preview`.
+- Pushed branch `preview/daesan-window-helper`; workflow `.github/workflows/pages.yml` deploys `dist/` automatically on pushes to that branch.
+- Pages deployment succeeded: https://kangho-jun.github.io/wins-preview/ . Verified live browser title and configuration UI. The github-pages environment explicitly allows this branch.
+- Original repository and DNS unchanged. Original main remains 67dc892004d7ae7fe0e12502bf502ad93f7dba1a. Original-repository permission blocker is bypassed through this user-approved separate repository.
+- Future updates: commit on preview/daesan-window-helper and push to preview remote. Never push these changes to origin/main without a new user instruction.
